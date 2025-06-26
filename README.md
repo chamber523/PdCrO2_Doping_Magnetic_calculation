@@ -20,9 +20,17 @@ PdCrO2_Doping_Magnetic_calculation/
 │   └── README.md
 ├── magnetic_analysis/        # Magnetic property analysis
 │   ├── magmom_to_mcif.py    # Convert magnetic moments to MCIF
+│   ├── magmom.ipynb         # Magnetic moment analysis notebook
 │   ├── example_usage.py     # Usage examples
 │   └── README.md
-├── dft_calculations/         # DFT calculation scripts (to be added)
+├── dft_calculations/         # DFT calculation setup and workflows
+│   ├── INCAR                # VASP input parameters
+│   ├── KPOINTS              # K-point mesh
+│   ├── POSCAR               # Crystal structure
+│   ├── submit_vasp6.4.3_cpu.slurm  # SLURM job script
+│   ├── generate_incar.py    # Generate INCAR for different doping
+│   ├── example_workflow.py  # Complete workflow example
+│   └── README.md
 └── README.md
 ```
 
@@ -31,15 +39,15 @@ PdCrO2_Doping_Magnetic_calculation/
 ### ✅ Completed
 - **SQS Structure Generation**: Complete implementation for generating Special Quasirandom Structures with vanadium doping concentrations from 10% to 90%
 - **Magnetic Analysis**: Tools for converting magnetic moments to MCIF format for VESTA visualization
+- **DFT Calculations**: VASP input files and workflow scripts for non-collinear magnetic calculations
 
 ### 🔄 In Progress
-- DFT calculation workflows
 - Advanced magnetic property analysis
+- Electronic structure analysis
 
 ### 📋 Planned
-- Electronic structure analysis
-- Magnetic moment calculations
 - Phase diagram analysis
+- High-throughput calculations
 
 ## Quick Start
 
@@ -52,7 +60,16 @@ jupyter lab icet.ipynb
 
 This will open the Jupyter notebook for generating SQS structures.
 
-### 2. Magnetic Moment Analysis
+### 2. DFT Calculation Setup
+
+```bash
+cd dft_calculations
+python example_workflow.py
+```
+
+This sets up calculation directories for different doping concentrations.
+
+### 3. Magnetic Moment Analysis
 
 ```bash
 cd magnetic_analysis
@@ -61,12 +78,26 @@ python magmom_to_mcif.py -m MAGMOM.txt -p POSCAR -o vesta.mcif
 
 This converts magnetic moment data to MCIF format for VESTA visualization.
 
-### 3. Configuration
+### 4. Configuration
 
 Edit `sqs_generation/config.py` to customize:
 - Doping concentrations
 - Supercell parameters
 - Monte Carlo optimization settings
+
+## DFT Calculation Features
+
+### VASP Parameters
+- **Non-collinear magnetic calculations** with spin-orbit coupling
+- **DFT+U** with U=4 eV for Cr atoms (Dudarev method)
+- **Optimized for Perlmutter** supercomputer (32 nodes, 8 cores each)
+- **High precision** with 400 eV cutoff and 1e-7 convergence
+
+### Workflow Automation
+- **Automatic INCAR generation** for different doping concentrations
+- **SLURM job submission** scripts
+- **Result analysis** scripts
+- **Integration** with SQS generation and magnetic analysis
 
 ## Requirements
 
@@ -75,6 +106,7 @@ Edit `sqs_generation/config.py` to customize:
 - ICET (Inorganic Crystal Structure Enumeration Toolkit)
 - NumPy
 - pymatgen
+- VASP 6.4.3 (for DFT calculations)
 
 ## Installation
 
@@ -82,13 +114,23 @@ Edit `sqs_generation/config.py` to customize:
 pip install ase icet numpy pymatgen
 ```
 
-## Workflow
+## Complete Workflow
 
-1. **Generate SQS structures** using the notebook in `sqs_generation/`
-2. **Run DFT calculations** on the generated structures
-3. **Extract magnetic moments** from VASP output
-4. **Convert to MCIF** using `magnetic_analysis/magmom_to_mcif.py`
-5. **Visualize** in VESTA or other crystallographic software
+1. **Generate SQS structures** using `sqs_generation/icet.ipynb`
+2. **Set up DFT calculations** using `dft_calculations/example_workflow.py`
+3. **Copy SQS POSCAR files** to calculation directories
+4. **Submit VASP jobs** using SLURM scripts
+5. **Monitor calculations** with `squeue -u $USER`
+6. **Extract magnetic moments** from OUTCAR
+7. **Convert to MCIF** using `magnetic_analysis/magmom_to_mcif.py`
+8. **Visualize** in VESTA or other crystallographic software
+
+## Computational Resources
+
+- **Supercomputer**: Perlmutter at NERSC
+- **VASP Version**: 6.4.3
+- **Parallelization**: 32 nodes × 8 cores
+- **Memory**: Optimized for large supercells
 
 ## Contributing
 
