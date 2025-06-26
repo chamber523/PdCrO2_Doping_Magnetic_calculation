@@ -1,0 +1,1 @@
+# PdCrO2_Doping_Magnetic_calculation
