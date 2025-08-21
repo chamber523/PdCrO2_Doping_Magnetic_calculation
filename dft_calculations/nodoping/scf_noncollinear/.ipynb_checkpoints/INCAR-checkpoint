@@ -1,0 +1,31 @@
+# general 
+ALGO = Fast     # Mixture of Davidson and RMM-DIIS algos
+PREC = N        # Normal precision
+EDIFF = 1e-5    # Convergence criteria for electronic converge
+NELM = 500      # Max number of electronic steps
+ENCUT = 400     # Cut off energy
+LASPH = True    # Include non-spherical contributions from gradient corrections
+BMIX = 3        # Mixing parameter for convergence
+AMIN = 0.01     # Mixing parameter for convergence 
+SIGMA = 0.05    # Width of smearing in eV
+
+# parallelization
+KPAR = 8        # The number of k-points to be treated in parallel
+NCORE = 8        # The number of bands to be treated in parallel
+
+# scf 
+ICHARG = 2      # Generate CHG* from a superposition of atomic charge densities
+ISMEAR = 0      # Fermi smearing
+LCHARG = True   # Write the CHG* files
+LWAVE = True   # Does not write the WAVECAR
+LREAL = Auto    # Automatically chooses real/reciprocal space for projections
+
+# soc 
+ISPIN           = 2  
+LNONCOLLINEAR   = .TRUE.  
+LSORBIT         = .TRUE.     
+ISYM            = 0          
+MAGMOM = \
+0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   \  
+3 90 0   3 90 120   3 90 240   \                    
+0 0 0   0 0 0   0 0 0                                   
